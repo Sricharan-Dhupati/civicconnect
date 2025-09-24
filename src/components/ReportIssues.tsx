@@ -90,7 +90,8 @@ const ReportIssues = () => {
 
   const categories = [
     { id: 'municipal', label: 'Municipal Corporation', icon: Shield },
-    { id: 'corruption', label: 'Political Corruption', icon: AlertTriangle }
+    { id: 'corruption', label: 'Political Corruption', icon: AlertTriangle },
+    { id: 'test', label: 'Test Category', icon: Zap }
   ];
 
   const subcategories = {
@@ -103,7 +104,12 @@ const ReportIssues = () => {
       { id: 'parks', label: 'Parks & Recreation', icon: TreePine },
       { id: 'corpse', label: 'Corpse on Streets', icon: AlertCircle }
     ],
-    corruption: []
+    corruption: [],
+    test: [
+      { id: 'test-general', label: 'General Test Issue', icon: Zap },
+      { id: 'test-emergency', label: 'Emergency Test', icon: AlertTriangle },
+      { id: 'test-routine', label: 'Routine Test', icon: Construction }
+    ]
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -355,15 +361,17 @@ const ReportIssues = () => {
               </div>
 
               {/* Subcategory Selection */}
-              {formData.category === 'municipal' && (
+              {(formData.category === 'municipal' || formData.category === 'test') && (
                 <div className="space-y-2">
-                  <Label htmlFor="subcategory" className="text-sm font-medium">Municipal Issue Type *</Label>
+                  <Label htmlFor="subcategory" className="text-sm font-medium">
+                    {formData.category === 'municipal' ? 'Municipal Issue Type' : 'Test Issue Type'} *
+                  </Label>
                   <Select value={formData.subcategory} onValueChange={(value) => setFormData(prev => ({ ...prev, subcategory: value }))}>
                     <SelectTrigger className="transition-smooth focus:shadow-soft">
-                      <SelectValue placeholder="Select issue type" />
+                      <SelectValue placeholder={`Select ${formData.category === 'municipal' ? 'issue' : 'test'} type`} />
                     </SelectTrigger>
                     <SelectContent>
-                      {subcategories.municipal.map((sub) => {
+                      {subcategories[formData.category as keyof typeof subcategories].map((sub) => {
                         const Icon = sub.icon;
                         return (
                           <SelectItem key={sub.id} value={sub.id}>
@@ -376,6 +384,23 @@ const ReportIssues = () => {
                       })}
                     </SelectContent>
                   </Select>
+                </div>
+              )}
+
+              {/* Test Category Warning */}
+              {formData.category === 'test' && (
+                <div className="p-4 rounded-lg bg-warning/10 border border-warning/30">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Zap className="w-5 h-5 text-warning" />
+                    <h4 className="font-semibold text-warning">Test Category Selected</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    This report will automatically trigger notifications within 30 seconds to:
+                  </p>
+                  <ul className="text-sm text-muted-foreground mt-2 space-y-1">
+                    <li>📱 SMS: +91 8519890805</li>
+                    <li>📧 Email: sricharan.dhupati@gmail.com</li>
+                  </ul>
                 </div>
               )}
 

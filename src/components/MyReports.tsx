@@ -69,7 +69,11 @@ const MyReports = () => {
       parks: TreePine,
       corpse: AlertCircle,
       corruption: AlertTriangle,
-      municipal: Shield
+      municipal: Shield,
+      test: AlertCircle,
+      'test-general': AlertCircle,
+      'test-emergency': AlertTriangle,
+      'test-routine': Construction
     };
     return icons[category] || AlertCircle;
   };

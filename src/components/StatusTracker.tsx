@@ -42,7 +42,11 @@ const StatusTracker = ({ onViewSuggestions }: { onViewSuggestions: (issue: Issue
       parks: 'Parks & Recreation',
       authority: 'Authority Issues',
       corpse: 'Corpse on Streets',
-      other: 'Other Issues'
+      other: 'Other Issues',
+      'test-general': 'General Test Issue',
+      'test-emergency': 'Emergency Test',
+      'test-routine': 'Routine Test',
+      test: 'Test Category'
     };
     
     return categoryLabels[issue.category] || issue.category;
